@@ -3,24 +3,32 @@
 if (isset($_POST['submitCad'])) {
   require 'cadastro.php';
 
+  // INSTANCIANDO A CONEXÃO
   $cad = new Cadastro();
   $msg = $cad->cadastrar($_POST['username'], $_POST['password'], $_POST['confPassword']);
 
-  if ($msg == 'Preencha todos os Campos !') {
-    header("Location: http://localhost/crudphp/cadastro.php?msgErro=$msg");
-    exit();
-  } else if ($msg == 'As Senhas não se Coincidem') {
-    header("Location: http://localhost/crudphp/cadastro.php?msgErro=$msg");
-    exit();
-  } else if ($msg == 'Cadastro Realizado !') {
+  if ($msg == 'Cadastro Realizado !') {
     header("Location: http://localhost/crudphp/cadastro.php?msgSucesso=$msg");
+    exit();
+  } else {
+    // 
+    $textError = $msg->getMessage();
+
+    $searchError = ['duplicate key value'];
+    $error = ['Usuário já Existe !'];
+
+    for ($i = 0; $i < count($searchError); $i++) {
+      if (preg_match("/{$searchError[$i]}/i", $textError)) {
+        header("Location: http://localhost/crudphp/cadastro.php?msgErro=$error[$i]");
+        break;
+      } else {
+        header("Location: http://localhost/crudphp/cadastro.php?msgErro=$textError");
+      }
+    }
   }
-
-
-  echo $msg;
 }
 
-if (isset($_POST['submitCad'])) {
+if (isset($_POST['submitLog'])) {
   require 'login.php';
 
   $cad = new Login();
