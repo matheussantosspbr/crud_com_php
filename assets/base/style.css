@@ -1,0 +1,70 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Poppins:wght@400;500;700&display=swap');
+
+/* ===== RESET ===== */
+
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+
+p {
+  font-size: 16px;
+  font-family: 'DM Sans';
+  font-weight: 500;
+}
+
+section {
+  width: 100%;
+}
+
+button {
+  cursor: pointer;
+}
+
+/* ===== Variaveis ===== */
+
+:root {
+  /*Cores*/
+  --cor-primaria: #00b8eb;
+  --cor-segundaria: #2f3944;
+  --pleacehouder: #ffffff91;
+  --footer: #080b0e;
+  --body: #0b0f13;
+  --letras: #fff;
+}
+
+body{
+  background-color: var(--body);
+  font-family: 'Poppins';
+  color: var(--letras);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.alertErro{
+  width: 50%;
+  height: 2.5rem;
+  background-color: red;
+  border-radius: 0 0 5px 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0%;
+}
+
+.alertSucesso{
+  width: 50%;
+  height: 2.5rem;
+  background-color: rgb(0, 232, 0);
+  border-radius: 0 0 5px 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0%;
+}
