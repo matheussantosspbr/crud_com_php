@@ -32,11 +32,11 @@
   <h1>Faça seu Cadastro</h1>
   <form action="assets/script/php/index.php" method="POST" id="cadastro">
     <label><strong>Nome de Usuário:</strong></label>
-    <input type="text" name="username" minlength="5" id="username" required />
+    <input type="text" name="username" minlength="5" id="username" maxlength="32" required />
     <label><strong>Senha:</strong></label>
-    <input type="password" name="password" minlength="8" id="password" required />
+    <input type="password" name="password" minlength="8" id="password" maxlength="20" required />
     <label><strong>Confirme sua Senha:</strong></label>
-    <input type="password" name="confPassword" minlength="8" id="confPassword" required />
+    <input type="password" name="confPassword" minlength="8" id="confPassword" maxlength="20" required />
     <div>
       <input type="submit" name="submitCad" value="Cadastrar" id="loading" />
       <a href="index.php">Faça seu Login</a>
@@ -49,7 +49,7 @@
       </div>
     </div>
   </div>
-  <script src="assets/script/js/loading.js"></script>
+  <script src="assets/script/js/loadingCad.js"></script>
 </body>
 
 </html>

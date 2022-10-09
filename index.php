@@ -30,16 +30,24 @@
   }
   ?>
   <h1>Faça seu Login</h1>
-  <form action="" method="post">
+  <form action="assets/script/php/index.php" method="post">
     <label><strong>Nome de Usuário:</strong></label>
-    <input type="text" name="username" required />
+    <input type="text" name="username" id="username" minlength="5" required />
     <label><strong>Senha:</strong></label>
-    <input type="password" name="password" minlength="8" required />
+    <input type="password" name="password" id="password" minlength="8" required />
     <div>
-      <input type="submit" name="submit" value="Logar" />
+      <input type="submit" name="submitLog" value="Logar" id="loading" />
       <a href="cadastro.php">Faça seu Cadastro</a>
     </div>
   </form>
+  <div class="loading">
+    <div class="spinner-box">
+      <div class="circle-border">
+        <div class="circle-core"></div>
+      </div>
+    </div>
+  </div>
+  <script src="assets/script/js/loading.js"></script>
 </body>
 
 </html>

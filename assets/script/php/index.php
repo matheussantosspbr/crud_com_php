@@ -7,12 +7,16 @@ if (isset($_POST['submitCad'])) {
   $cad = new Cadastro();
   $msg = $cad->cadastrar($_POST['username'], $_POST['password'], $_POST['confPassword']);
 
+  if (isset($msg->getMessage)) {
+    $textError = $msg->getMessage();
+  } else {
+    $textError = $msg;
+  }
+
   if ($msg == 'Cadastro Realizado !') {
     header("Location: http://localhost/crudphp/cadastro.php?msgSucesso=$msg");
     exit();
   } else {
-    // 
-    $textError = $msg->getMessage();
 
     $searchError = ['duplicate key value'];
     $error = ['Usuário já Existe !'];
@@ -34,16 +38,13 @@ if (isset($_POST['submitLog'])) {
   $cad = new Login();
   $msg = $cad->login($_POST['username'], $_POST['password']);
 
-  if ($msg == 'Preencha todos os Campos !') {
-    header("Location: http://localhost/crudphp/cadastro.php?msgErro=$msg");
+  if (isset($msg['result']) && $msg['result'] == 'Login Realizado !') {
+    header("Location: http://localhost/crudphp/index.php?msgSucesso={$msg['result']}");
+  } else {
+    header("Location: http://localhost/crudphp/index.php?msgErro=$msg");
+    // echo "<pre>";
+    // print_r($msg);
+    // echo "</pre>";
     exit();
-  } else if ($msg == 'Senha ou Usuário Inválido') {
-    header("Location: http://localhost/crudphp/cadastro.php?msgErro=$msg");
-    exit();
-  } else if ($msg == 'Login Realizado !') {
-    header("Location: http://localhost/crudphp/cadastro.php?msgSucesso=$msg");
   }
-
-
-  echo $msg;
 }
