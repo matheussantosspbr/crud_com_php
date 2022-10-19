@@ -15,7 +15,6 @@ class Cadastro
       return 'Preencha todos os Campos !';
       exit();
     }
-
     // Validação de as credenciais de senha são iguais
     if ($senha != $confSenha) {
       return 'As Senhas não se Coincidem';

@@ -19,7 +19,7 @@ class Login
     }
 
     /* ============= BUSCAR RESULTADOS ========================== */
-    // // Query de Usuarios
+
     $query = "SELECT 
                 name,
                 password

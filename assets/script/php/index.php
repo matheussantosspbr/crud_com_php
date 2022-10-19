@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 if (isset($_POST['submitCad'])) {
   require 'cadastro.php';
@@ -39,7 +40,9 @@ if (isset($_POST['submitLog'])) {
   $msg = $cad->login($_POST['username'], $_POST['password']);
 
   if (isset($msg['result']) && $msg['result'] == 'Login Realizado !') {
-    header("Location: http://localhost/crudphp/index.php?msgSucesso={$msg['result']}");
+
+    $_SESSION['Username'] = $_POST['username'];
+    header("Location: http://localhost/crudphp/painel.php");
   } else {
     header("Location: http://localhost/crudphp/index.php?msgErro=$msg");
     // echo "<pre>";
