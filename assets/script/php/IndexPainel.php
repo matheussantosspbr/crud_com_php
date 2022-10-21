@@ -7,16 +7,16 @@ require './task/concluirTarefa.php';
 
 if (isset($_POST['add'])) {
   $add = new AddTarefa();
-  $msg = $add->addTarefa($_POST['tarefa'], $_POST['username']);
+  $add->addTarefa($_POST['tarefa'], $_POST['username']);
 
-  header("Location: http://localhost/crudphp/painel.php?msgErro=$msg");
+  header("Location: http://localhost/crudphp/painel.php");
 }
 
 if (isset($_POST['concluir'])) {
   $concluir = new ConcluirTarefa();
-  $msg = $concluir->concluirTarefa($_POST['tarefa']);
+  $concluir->concluirTarefa($_POST['tarefa']);
 
-  header("Location: http://localhost/crudphp/painel.php?msgErro=$msg");
+  header("Location: http://localhost/crudphp/painel.php");
 }
 
 if (isset($_POST['editar'])) {
@@ -27,4 +27,6 @@ if (isset($_POST['editar'])) {
 if (isset($_POST['excluir'])) {
   $ex = new ExcluirTarefa();
   $ex->excluirTarefa($_POST['tarefa']);
+
+  header("Location: http://localhost/crudphp/painel.php");
 }
