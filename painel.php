@@ -1,6 +1,47 @@
 <?php
 session_start();
+
+
 include('./assets/script/php/verificaLogin.php');
+require './model/conexao.php';
+
+$pdo = new Conexao();
+$con = $pdo->conexao();
+
+$query = " SELECT
+              id,
+	            task,
+	            status
+          from
+              tasks
+          where
+              user_task = :username
+";
+
+$query1 = " SELECT
+              count(status)
+            from
+              tasks
+            where
+              user_task = :user
+              and status = true
+
+";
+
+$stmt = $con->prepare($query);
+$stmt->bindParam(":username", $_SESSION['Username']);
+$stmt->execute();
+$user = $stmt->fetchAll();
+
+$stmt1 = $con->prepare($query1);
+$stmt1->bindParam(":user", $_SESSION['Username']);
+$stmt1->execute();
+$true = $stmt1->fetchAll();
+
+$totalTask = count($user);
+$checkTasks = $true[0]['count'];
+$TasksPendentes = $totalTask - $checkTasks;
+
 ?>
 
 <!DOCTYPE html>
@@ -42,7 +83,7 @@ include('./assets/script/php/verificaLogin.php');
           </svg>
           <div class="dadosResumo">
             <p>Total de Tarefas</p>
-            <p><strong>200</strong></p>
+            <p><strong><?php echo $totalTask ?></strong></p>
           </div>
         </div>
         <div class="card tarefaPendente">
@@ -107,7 +148,7 @@ include('./assets/script/php/verificaLogin.php');
 
           <div class="dadosResumo">
             <p>Tarefas Pendentes</p>
-            <p><strong>200</strong></p>
+            <p><strong><?php echo $TasksPendentes ?></strong></p>
           </div>
         </div>
         <div class="card tarefaConcluida">
@@ -194,7 +235,7 @@ include('./assets/script/php/verificaLogin.php');
 
           <div class="dadosResumo">
             <p>Tarefas Concluidas</p>
-            <p><strong>200</strong></p>
+            <p><strong><?php echo $checkTasks; ?></strong></p>
           </div>
         </div>
       </div>
@@ -203,89 +244,79 @@ include('./assets/script/php/verificaLogin.php');
       <h1>Tarefas</h1>
       <div class="tarefas">
         <form class="addTarefa" action="./assets/script/php/IndexPainel.php" method="POST">
-          <input type="text" name="tarefa" placeholder="Adicionar Tarefa">
+          <input type="hidden" value="<?php echo $_SESSION['Username']; ?>" name="username">
+          <input type="text" name="tarefa" placeholder="Adicionar Tarefa" minlength="5" maxlength="200">
           <button name="add">+</button>
         </form>
-        <table>
-          <tr>
-            <th style="width: 10%;">Status</th>
-            <th style="width: 70%;">Tarefa</th>
-            <th style="width: 20%;">Ações</th>
-          </tr>
-          <tr>
-            <td>
-              <p>🟢</p>
-            </td>
-            <td>
-              <p>Academia</p>
-            </td>
-            <td style="text-align: center;">
-              <form action="./assets/script/php/IndexPainel.php" method="post">
-                <button id="check" name="concluir">
-                  <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M21.5 13L14.1625 20L10.5 16.5" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                    <path d="M16 28C22.6274 28 28 22.6274 28 16C28 9.37258 22.6274 4 16 4C9.37258 4 4 9.37258 4 16C4 22.6274 9.37258 28 16 28Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                  </svg>
+        <?php
+        if ($user == array()) {
+          echo " Não Tem Tarefas";
+        } else {
+        ?>
+          <table>
+            <tr>
+              <th style="width: 10%;">Status</th>
+              <th style="width: 70%;">Tarefa</th>
+              <th style="width: 20%;">Ações</th>
+            </tr>
+            <?php
+            for ($i = 0; $i < count($user); $i++) {
 
-                </button>
-                <button id="edit" name="editar">
-                  <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M16 20H12V16L24 4L28 8L16 20Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                    <path d="M21 7L25 11" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                    <path d="M27 15V26C27 26.2652 26.8946 26.5196 26.7071 26.7071C26.5196 26.8946 26.2652 27 26 27H6C5.73478 27 5.48043 26.8946 5.29289 26.7071C5.10536 26.5196 5 26.2652 5 26V6C5 5.73478 5.10536 5.48043 5.29289 5.29289C5.48043 5.10536 5.73478 5 6 5H17" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                  </svg>
-                </button>
-                <button id="close" name="excluir">
-                  <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M27 7.5H5" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
-                    <path d="M13 13V21" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
-                    <path d="M19 13V21" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
-                    <path d="M25 7.5V26C25 26.2652 24.8946 26.5196 24.7071 26.7071C24.5196 26.8946 24.2652 27 24 27H8C7.73478 27 7.48043 26.8946 7.29289 26.7071C7.10536 26.5196 7 26.2652 7 26V7.5" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
-                    <path d="M21 7.5V4.5C21 3.96957 20.7893 3.46086 20.4142 3.08579C20.0391 2.71071 19.5304 2.5 19 2.5H13C12.4696 2.5 11.9609 2.71071 11.5858 3.08579C11.2107 3.46086 11 3.96957 11 4.5V7.5" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
-                  </svg>
+            ?>
+              <tr>
+                <td>
+                  <p>
+                    <?php
+                    if ($user[$i]['status'] == true) {
 
-                </button>
-              </form>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <p>🟢</p>
-            </td>
-            <td>
-              <p>Academia</p>
-            </td>
-            <td style="text-align: center;">
-              <form action="./assets/script/php/IndexPainel.php" method="post">
-                <button id="check" name="concluir">
-                  <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M21.5 13L14.1625 20L10.5 16.5" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                    <path d="M16 28C22.6274 28 28 22.6274 28 16C28 9.37258 22.6274 4 16 4C9.37258 4 4 9.37258 4 16C4 22.6274 9.37258 28 16 28Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                  </svg>
+                      echo '🟢';
+                    } else {
 
-                </button>
-                <button id="edit" name="editar">
-                  <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M16 20H12V16L24 4L28 8L16 20Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                    <path d="M21 7L25 11" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                    <path d="M27 15V26C27 26.2652 26.8946 26.5196 26.7071 26.7071C26.5196 26.8946 26.2652 27 26 27H6C5.73478 27 5.48043 26.8946 5.29289 26.7071C5.10536 26.5196 5 26.2652 5 26V6C5 5.73478 5.10536 5.48043 5.29289 5.29289C5.48043 5.10536 5.73478 5 6 5H17" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                  </svg>
-                </button>
-                <button id="close" name="excluir">
-                  <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M27 7.5H5" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
-                    <path d="M13 13V21" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
-                    <path d="M19 13V21" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
-                    <path d="M25 7.5V26C25 26.2652 24.8946 26.5196 24.7071 26.7071C24.5196 26.8946 24.2652 27 24 27H8C7.73478 27 7.48043 26.8946 7.29289 26.7071C7.10536 26.5196 7 26.2652 7 26V7.5" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
-                    <path d="M21 7.5V4.5C21 3.96957 20.7893 3.46086 20.4142 3.08579C20.0391 2.71071 19.5304 2.5 19 2.5H13C12.4696 2.5 11.9609 2.71071 11.5858 3.08579C11.2107 3.46086 11 3.96957 11 4.5V7.5" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
-                  </svg>
+                      echo '🔴';
+                    }
+                    ?>
+                  </p>
+                </td>
+                <td>
+                  <p><?php echo $user[$i]['task'] ?></p>
+                </td>
+                <td style="text-align: center;">
+                  <form action="./assets/script/php/IndexPainel.php" method="post">
+                    <input type="hidden" value="<?php echo $user[$i]['id'] ?>" name="tarefa">
+                    <button id="check" name="concluir">
+                      <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M21.5 13L14.1625 20L10.5 16.5" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M16 28C22.6274 28 28 22.6274 28 16C28 9.37258 22.6274 4 16 4C9.37258 4 4 9.37258 4 16C4 22.6274 9.37258 28 16 28Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>
 
-                </button>
-              </form>
-            </td>
-          </tr>
+                    </button>
+                    <button id="edit" name="editar">
+                      <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M16 20H12V16L24 4L28 8L16 20Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M21 7L25 11" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M27 15V26C27 26.2652 26.8946 26.5196 26.7071 26.7071C26.5196 26.8946 26.2652 27 26 27H6C5.73478 27 5.48043 26.8946 5.29289 26.7071C5.10536 26.5196 5 26.2652 5 26V6C5 5.73478 5.10536 5.48043 5.29289 5.29289C5.48043 5.10536 5.73478 5 6 5H17" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>
+                    </button>
+                    <button id="close" name="excluir">
+                      <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M27 7.5H5" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M13 13V21" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M19 13V21" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M25 7.5V26C25 26.2652 24.8946 26.5196 24.7071 26.7071C24.5196 26.8946 24.2652 27 24 27H8C7.73478 27 7.48043 26.8946 7.29289 26.7071C7.10536 26.5196 7 26.2652 7 26V7.5" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                        <path d="M21 7.5V4.5C21 3.96957 20.7893 3.46086 20.4142 3.08579C20.0391 2.71071 19.5304 2.5 19 2.5H13C12.4696 2.5 11.9609 2.71071 11.5858 3.08579C11.2107 3.46086 11 3.96957 11 4.5V7.5" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>
 
-        </table>
+                    </button>
+                  </form>
+                </td>
+              </tr>
+            <?php
+            }
+            ?>
+          </table>
+        <?php
+        }
+        ?>
       </div>
     </section>
   </main>

@@ -1,0 +1,14 @@
+create table tasks(
+	id serial primary key,
+	user_task varchar(32),
+	task varchar(200),
+	status bool
+)
+
+select
+	count(status)
+from
+	tasks
+where
+	user_task = 'matheussantosspbr@gmail.com'
+	and status = true
