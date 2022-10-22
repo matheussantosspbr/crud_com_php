@@ -21,7 +21,9 @@ if (isset($_POST['concluir'])) {
 
 if (isset($_POST['editar'])) {
   $e = new EditarTarefa();
-  $e->editarTarefa($_POST['tarefa']);
+  $e->editarTarefa($_POST['tarefa'], $_POST['idTarefa']);
+
+  header("Location: http://localhost/crudphp/painel.php");
 }
 
 if (isset($_POST['excluir'])) {

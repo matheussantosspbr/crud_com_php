@@ -254,6 +254,14 @@ $TasksPendentes = $totalTask - $checkTasks;
         } else {
         ?>
           <table>
+            <div class="forms">
+              <form action="./assets/script/php/IndexPainel.php" method="post">
+                <input type="hidden" id="inputHidden" name="idTarefa">
+                <input type="text" id="formInput" name="tarefa">
+                <button name="editar" onclick="closeForm()">Editar</button>
+              </form>
+              <p onclick="closeForm()">x</p>
+            </div>
             <tr>
               <th style="width: 10%;">Status</th>
               <th style="width: 70%;">Tarefa</th>
@@ -261,7 +269,6 @@ $TasksPendentes = $totalTask - $checkTasks;
             </tr>
             <?php
             for ($i = 0; $i < count($user); $i++) {
-
             ?>
               <tr>
                 <td>
@@ -290,13 +297,6 @@ $TasksPendentes = $totalTask - $checkTasks;
                       </svg>
 
                     </button>
-                    <button id="edit" name="editar">
-                      <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M16 20H12V16L24 4L28 8L16 20Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                        <path d="M21 7L25 11" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                        <path d="M27 15V26C27 26.2652 26.8946 26.5196 26.7071 26.7071C26.5196 26.8946 26.2652 27 26 27H6C5.73478 27 5.48043 26.8946 5.29289 26.7071C5.10536 26.5196 5 26.2652 5 26V6C5 5.73478 5.10536 5.48043 5.29289 5.29289C5.48043 5.10536 5.73478 5 6 5H17" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                      </svg>
-                    </button>
                     <button id="close" name="excluir">
                       <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M27 7.5H5" stroke="black" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
@@ -308,6 +308,13 @@ $TasksPendentes = $totalTask - $checkTasks;
 
                     </button>
                   </form>
+                  <button class="edit" onclick="editar('<?php echo $user[$i]['task'] ?>', '<?php echo $user[$i]['id'] ?>')">
+                    <svg width=" 32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M16 20H12V16L24 4L28 8L16 20Z" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                      <path d="M21 7L25 11" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                      <path d="M27 15V26C27 26.2652 26.8946 26.5196 26.7071 26.7071C26.5196 26.8946 26.2652 27 26 27H6C5.73478 27 5.48043 26.8946 5.29289 26.7071C5.10536 26.5196 5 26.2652 5 26V6C5 5.73478 5.10536 5.48043 5.29289 5.29289C5.48043 5.10536 5.73478 5 6 5H17" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                  </button>
                 </td>
               </tr>
             <?php
