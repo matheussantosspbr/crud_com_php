@@ -1,42 +1,14 @@
 <?php
 session_start();
-
-
 include('./assets/script/php/verificaLogin.php');
-require './model/conexao.php';
+require './assets/script/php/task/tasksConcluidas.php';
+require './assets/script/php/task/tasksUser.php';
 
-$pdo = new Conexao();
-$con = $pdo->conexao();
+$tasksUsers = new Tasks();
+$user = $tasksUsers->tasks($_SESSION['Username']);
 
-$query = " SELECT
-              id,
-	            task,
-	            status
-          from
-              tasks
-          where
-              user_task = :username
-";
-
-$query1 = " SELECT
-              count(status)
-            from
-              tasks
-            where
-              user_task = :user
-              and status = true
-
-";
-
-$stmt = $con->prepare($query);
-$stmt->bindParam(":username", $_SESSION['Username']);
-$stmt->execute();
-$user = $stmt->fetchAll();
-
-$stmt1 = $con->prepare($query1);
-$stmt1->bindParam(":user", $_SESSION['Username']);
-$stmt1->execute();
-$true = $stmt1->fetchAll();
+$tasksTrue = new TasksCheck;
+$true = $tasksTrue->tasksCheck($_SESSION['Username']);
 
 $totalTask = count($user);
 $checkTasks = $true[0]['count'];
