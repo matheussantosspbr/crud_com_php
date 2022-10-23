@@ -4,7 +4,6 @@ class Tasks
 {
   public function tasks($username)
   {
-    require '../../../model/conexao.php';
 
     $pdo = new Conexao();
     $con = $pdo->conexao();

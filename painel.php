@@ -1,6 +1,7 @@
 <?php
 session_start();
 include('./assets/script/php/verificaLogin.php');
+require './model/conexao.php';
 require './assets/script/php/task/tasksConcluidas.php';
 require './assets/script/php/task/tasksUser.php';
 
