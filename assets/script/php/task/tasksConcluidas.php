@@ -5,7 +5,7 @@ class TasksCheck
   public function tasksCheck($username)
   {
 
-    require '../../../../model/conexao.php';
+    require '../../../model/conexao.php';
 
     $pdo = new Conexao();
     $con = $pdo->conexao();
