@@ -15,7 +15,7 @@ if (isset($_POST['submitCad'])) {
   }
 
   if ($msg == 'Cadastro Realizado !') {
-    header("Location: http://localhost/crudphp/cadastro.php?msgSucesso=$msg");
+    header("Location: https://crud-php-dev-matheussantos.herokuapp.com/cadastro.php?msgSucesso=$msg");
     exit();
   } else {
 
@@ -24,10 +24,10 @@ if (isset($_POST['submitCad'])) {
 
     for ($i = 0; $i < count($searchError); $i++) {
       if (preg_match("/{$searchError[$i]}/i", $textError)) {
-        header("Location: http://localhost/crudphp/cadastro.php?msgErro=$error[$i]");
+        header("Location: https://crud-php-dev-matheussantos.herokuapp.com/cadastro.php?msgErro=$error[$i]");
         break;
       } else {
-        header("Location: http://localhost/crudphp/cadastro.php?msgErro=$textError");
+        header("Location: https://crud-php-dev-matheussantos.herokuapp.com/cadastro.php?msgErro=$textError");
       }
     }
   }
@@ -45,9 +45,5 @@ if (isset($_POST['submitLog'])) {
     header("Location: https://crud-php-dev-matheussantos.herokuapp.com/painel.php");
   } else {
     header("Location: https://crud-php-dev-matheussantos.herokuapp.com/index.php?msgErro=$msg");
-    // echo "<pre>";
-    // print_r($msg);
-    // echo "</pre>";
-    exit();
   }
 }
