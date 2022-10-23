@@ -42,9 +42,9 @@ if (isset($_POST['submitLog'])) {
   if (isset($msg['result']) && $msg['result'] == 'Login Realizado !') {
 
     $_SESSION['Username'] = $_POST['username'];
-    header("Location: http://localhost/crudphp/painel.php");
+    header("Location: painel.php");
   } else {
-    header("Location: http://localhost/crudphp/index.php?msgErro=$msg");
+    header("Location: index.php?msgErro=$msg");
     // echo "<pre>";
     // print_r($msg);
     // echo "</pre>";
