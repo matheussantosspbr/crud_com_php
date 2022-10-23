@@ -21,7 +21,7 @@ if (isset($_POST['submitCad'])) {
 
     $searchError = ['duplicate key value'];
     $error = ['Usuário já Existe !'];
-    echo $error;
+    echo "erro";
 
     for ($i = 0; $i < count($searchError); $i++) {
       if (preg_match("/{$searchError[$i]}/i", $textError)) {
@@ -29,6 +29,7 @@ if (isset($_POST['submitCad'])) {
         break;
       } else {
         header("Location: https://crud-php-dev-matheussantos.herokuapp.com/cadastro.php?msgErro=$textError");
+        break;
       }
     }
   }
