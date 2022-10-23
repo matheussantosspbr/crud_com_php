@@ -42,9 +42,9 @@ if (isset($_POST['submitLog'])) {
   if (isset($msg['result']) && $msg['result'] == 'Login Realizado !') {
 
     $_SESSION['Username'] = $_POST['username'];
-    header("Location: painel.php");
+    header("Location: https://crud-php-dev-matheussantos.herokuapp.com/painel.php");
   } else {
-    header("Location: index.php?msgErro=$msg");
+    header("Location: https://crud-php-dev-matheussantos.herokuapp.com/index.php?msgErro=$msg");
     // echo "<pre>";
     // print_r($msg);
     // echo "</pre>";
