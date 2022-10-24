@@ -4,11 +4,3 @@ create table tasks(
 	task varchar(200),
 	status bool
 )
-
-select
-	count(status)
-from
-	tasks
-where
-	user_task = 'matheussantosspbr@gmail.com'
-	and status = true
