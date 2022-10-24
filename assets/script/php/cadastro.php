@@ -33,7 +33,7 @@ class Cadastro
       $stmt = $con->prepare($query);
       $stmt->bindParam(":nome", $username);
       $stmt->bindParam(":password", md5($senha));
-      $stmt->bindParam(":created_date", date('d/m/Y'));
+      $stmt->bindParam(":created_date", date('Y-m-d'));
 
       if ($stmt->execute()) {
         return 'Cadastro Realizado !';
