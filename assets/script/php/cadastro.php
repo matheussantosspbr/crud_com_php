@@ -28,10 +28,12 @@ class Cadastro
                 (:nome, :password, :created_date)";
 
     try {
+      date_default_timezone_set('America/Sao_Paulo');
+
       $stmt = $con->prepare($query);
       $stmt->bindParam(":nome", $username);
       $stmt->bindParam(":password", md5($senha));
-      $stmt->bindParam(":created_date", date("d/m/y"));
+      $stmt->bindParam(":created_date", date('d/m/Y'));
 
       if ($stmt->execute()) {
         return 'Cadastro Realizado !';
