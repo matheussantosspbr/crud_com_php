@@ -41,7 +41,13 @@ class Cadastro
 
       // Para caso ouver algum erro durante o processo de cadastro
     } catch (PDOException $e) {
-      return $e;
+      $msg = ['PDOException: SQLSTATE[23505]: Unique violation: 7 ERROR: duplicate key value violates unique constraint "users_pkey" DETAIL: Key (name)=(' . $username . ') already exists. in /app/assets/script/php/cadastro.php:38 Stack trace: #0 /app/assets/script/php/cadastro.php(38): PDOStatement->execute() #1 /app/assets/script/php/index.php(9): Cadastro->cadastrar() #2 {main}'];
+
+      if ($e == $msg) {
+        return 'duplicate key value';
+      } else {
+        return $e;
+      }
     }
   }
 }
