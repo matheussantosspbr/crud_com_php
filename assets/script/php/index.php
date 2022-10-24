@@ -21,7 +21,6 @@ if (isset($_POST['submitCad'])) {
 
     $searchError = ['duplicate key value'];
     $error = ['Usuário já Existe !'];
-    echo $msg;
 
     for ($i = 0; $i < count($searchError); $i++) {
       if (preg_match("/{$searchError[$i]}/i", $textError)) {
